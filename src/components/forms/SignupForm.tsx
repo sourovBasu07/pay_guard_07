@@ -46,7 +46,7 @@ const SignupForm = ({
     const { email, username, password } = values;
     const newUser = await createUser({ email, username, password });
 
-    console.log(newUser);
+    console.log(newUser, isLoading);
   };
 
   return (
@@ -146,7 +146,7 @@ const SignupForm = ({
                   )}
                 />
 
-                <Button type="submit" className="w-full" disabled={isLoading}>
+                <Button type="submit" className="w-full">
                   Sign Up
                 </Button>
               </form>

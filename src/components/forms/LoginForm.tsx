@@ -23,14 +23,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { loginFormSchema } from "@/lib/zod/userSchema";
-import { signIn } from "next-auth/react";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation";
+import { useLoginMutation } from "@/lib/apiSlices/usersSlice";
 
 const LoginForm = ({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) => {
-  const router = useRouter();
+  // const router = useRouter();
+  const [loginUser, { isLoading }] = useLoginMutation();
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
     defaultValues: {
@@ -40,15 +41,12 @@ const LoginForm = ({
   });
 
   const onSubmit = async (values: z.infer<typeof loginFormSchema>) => {
-    const result = await signIn("credentials", {
+    const result = await loginUser({
       email: values.email,
       password: values.password,
-      redirect: false,
     });
 
-    if (!result?.error) {
-      router.push("/dashboard");
-    }
+    console.log(result, isLoading);
   };
 
   return (
