@@ -11,17 +11,14 @@ export async function POST(request: NextRequest) {
       data
     );
 
-    console.log(loggedIn, error);
+    if (error) {
+      console.log(error);
 
-    // const user = await User.findOne({ email });
-
-    // if (user) {
-    //   return NextResponse.json(
-    //     { error: "Email already exists " },
-    //     { status: 400 }
-    //   );
-    // } else {
-    //   await User.create({ email, username, password: hashedPassword });
+      return NextResponse.json(
+        { message: error.code },
+        { status: error.status }
+      );
+    }
 
     return NextResponse.json(
       { message: "Logged in successfully" },

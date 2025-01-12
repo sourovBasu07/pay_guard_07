@@ -25,12 +25,14 @@ import { z } from "zod";
 import { loginFormSchema } from "@/lib/zod/userSchema";
 // import { useRouter } from "next/navigation";
 import { useLoginMutation } from "@/lib/apiSlices/usersSlice";
+import { useToast } from "@/hooks/use-toast";
 
 const LoginForm = ({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) => {
   // const router = useRouter();
+  const { toast } = useToast();
   const [loginUser, { isLoading }] = useLoginMutation();
   const form = useForm<z.infer<typeof loginFormSchema>>({
     resolver: zodResolver(loginFormSchema),
@@ -45,6 +47,14 @@ const LoginForm = ({
       email: values.email,
       password: values.password,
     });
+
+    if (result.error) {
+      toast({
+        title: "Error",
+        description: "Invalid email or password",
+        variant: "destructive",
+      });
+    }
 
     console.log(result, isLoading);
   };

@@ -1,4 +1,5 @@
 import DashboardNavbar from "@/components/dashboard/DashboardNavbar";
+import UploadAvatar from "@/components/forms/UploadAvatar";
 import { createClient } from "@/utils/supabase/server";
 
 const Dashboard = async () => {
@@ -12,6 +13,14 @@ const Dashboard = async () => {
   return (
     <div className="">
       <DashboardNavbar />
+      <UploadAvatar
+        uid={user?.id ?? null}
+        size={150}
+        // onUpload={(url) => {
+        //   setAvatarUrl(url);
+        //   updateProfile({ fullname, username, website, avatar_url: url });
+        // }}
+      />
     </div>
   );
 };
